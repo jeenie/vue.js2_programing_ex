@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <title>Vote</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>People of Vue</h1>
+      <div>
+        <ul class="list-group">
+          <li v-for="major in majors" class="list-group-item">
+            {{major.name}} {{major.votes}}
+            <button @click="major.votes++">Vote</button>
+          </li>
+        </ul>
+      </div>
+      <h2>Our mayor is {{elected.name}}</h2>
+      <pre>{{$data}}</pre>
+    </div>
+
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '.container',
+      data: {
+        candidates: [
+          {
+            name: "Mr.Black",
+            votes: 140
+          },
+          {
+            name: "Mr.Pink",
+            votes: 135
+          },
+          {
+            name: "Mr.White",
+            votes: 145
+          },
+          {
+            name: "Mr.Brown",
+            votes: 130
+          }
+        ]
+      },
+      computed: {
+        elected: function() {
+          var candidatesSorted = this.candidates.sort(function(a,b) {
+            return b.votes - a.votes;
+          });
+          return candidatesSorted[0];
+        }
+      }
+    })
+  </script>
+</html>
