@@ -6,16 +6,16 @@
   <body>
     <div class="container">
       <h1>People of Vue</h1>
-      <div>
-        <ul class="list-group">
-          <li v-for="major in majors" class="list-group-item">
-            {{major.name}} {{major.votes}}
-            <button @click="major.votes++">Vote</button>
-          </li>
-        </ul>
-      </div>
-      <h2>Our mayor is {{elected.name}}</h2>
+      <ul class="list-group">
+        <li v-for="candidate in candidates" class="list-group-item">
+          {{candidate.name}} {{candidate.votes}}
+          <button @click="candidate.votes++">Vote</button>
+        </li>
+      </ul>
+      <input @keyup.delete="clear" class="form-control" placeholder="press 'delete' to reset">
+      <h2>Our mayor is {{elected.name}}!</h2>
       <pre>{{$data}}</pre>
+      <pre>{{elected}}</pre>
     </div>
 
   </body>
@@ -49,6 +49,14 @@
             return b.votes - a.votes;
           });
           return candidatesSorted[0];
+        }
+      },
+      methods: {
+        clear: function() {
+          this.candidates = this.candidates.map(function(candidate) {
+            candidate.votes = 0;
+            return candidate;
+          })
         }
       }
     })
