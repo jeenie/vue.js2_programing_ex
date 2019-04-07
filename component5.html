@@ -5,6 +5,10 @@
   </head>
   <body>
     <div class="container">
+      <!--
+        v-bind : 하나 이상의 속성 또는 컴포넌트 프로퍼티를 동적으로 바인딩
+        :story:"..." 축약 가능
+      -->
       <story v-bind:story="{plot: 'My horse is amazing.', writer: 'Mr.Weeb1'}"></story>
       <story v-bind:story="{plot: 'Narwhals invented Shish Kebab.', writer: 'Mr.Weeb1'}"></story>
       <story v-bind:story="{plot: 'The dark side of the Force is stronger.', writer: 'Darth Vader'}"></story>
