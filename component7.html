@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <title>Hello Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <h1>Let's hear some stories!</h1>
+        <ul class="list-group">
+          <story v-for="story in stories" :story="story"></story>
+        </ul>
+        <pre>{{$data}}</pre>
+      </div>
+    </div>
+    <!-- template 태그 -->
+    <template id="story-template">
+      <li class="list-group-item">
+          {{story.writer}} said "{{story.plot}}"
+      </li>
+    </template>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+  <script type="text/javascript">
+    Vue.component('story', {
+      props: ['story'],
+      template: "#story-template"
+    });
+    new Vue({
+      el: '.container',
+      data: {
+        stories: [
+          {
+            plot: "I crashed my car today!",
+            writer: "Alex"
+          },
+          {
+            plot: "Yesterday, someone stole my bag",
+            writer: "John"
+          },
+          {
+            plot: "Someone ate my chocolate!",
+            writer: "John"
+          },
+          {
+            plot: "I ate someone's chocolate!",
+            writer: "Alex"
+          }
+        ],
+        query: ''
+      },
+      methods: {
+        storiesBy: function(writer) {
+          return this.stories.filter(function (story) {
+            return story.writer === writer;
+          })
+        }
+      },
+      computed: {
+        search: function() {
+          var query = this.query;
+          return this.stories.filter(function(story) {
+            return story.body.includes(query);
+          })
+        }
+      }
+    })
+  </script>
+</html>
