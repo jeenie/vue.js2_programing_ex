@@ -4,6 +4,7 @@
     <title>Hello Vue</title>
   </head>
   <body>
+    <!--한 사람당 한표만 가능하도록 구현-->
     <div id="app">
       <div class="container">
         <h1>Let's hear some stories!</h1>
@@ -17,6 +18,10 @@
     <template id="story-template">
       <li class="list-group-item">
           {{story.writer}} said "{{story.plot}}"
+          Story upvotes {{story.upvotes}}
+          <button v-show="!story.voted" @click="upvote" class="btn btn-default">
+            Upvote
+          </button>
       </li>
     </template>
   </body>
@@ -24,45 +29,44 @@
   <script type="text/javascript">
     Vue.component('story', {
       props: ['story'],
-      template: "#story-template"
+      template: "#story-template",
+      methods: {
+        upvote: function() {
+          this.story.upvotes += 1;
+          this.story.voted = true;
+        }
+      }
     });
+
     new Vue({
-      el: '.container',
+      el: '#app',
       data: {
         stories: [
           {
-            plot: "I crashed my car today!",
-            writer: "Alex"
+            plot: "My horse is amazing!",
+            writer: "Mr. Weebl",
+            upvotes: 28,
+            voted : false
           },
           {
-            plot: "Yesterday, someone stole my bag",
-            writer: "John"
+            plot: "Narwhals invented Shish Kebab.",
+            writer: "Mr. Weebl",
+            upvotes: 8,
+            voted : false
           },
           {
-            plot: "Someone ate my chocolate!",
-            writer: "John"
+            plot: "The dark side of the Force is stronger.",
+            writer: "Darth Vader",
+            upvotes: 49,
+            voted : false
           },
           {
-            plot: "I ate someone's chocolate!",
-            writer: "Alex"
+            plot: "One does not simply walk into Mordor",
+            writer: "Boromir",
+            upvotes: 74,
+            voted : false
           }
-        ],
-        query: ''
-      },
-      methods: {
-        storiesBy: function(writer) {
-          return this.stories.filter(function (story) {
-            return story.writer === writer;
-          })
-        }
-      },
-      computed: {
-        search: function() {
-          var query = this.query;
-          return this.stories.filter(function(story) {
-            return story.body.includes(query);
-          })
-        }
+        ]
       }
     })
   </script>
