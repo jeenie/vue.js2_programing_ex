@@ -9,7 +9,7 @@
       <div class="container">
         <h1>Let's hear some stories!</h1>
         <ul class="list-group">
-          <story v-for="story in stories" :story="story"></story>
+          <story v-for="story in stories" :story="story" :favorite="favorite"></story>
         </ul>
         <pre>{{$data}}</pre>
       </div>
@@ -22,18 +22,35 @@
           <button v-show="!story.voted" @click="upvote" class="btn btn-default">
             Upvote
           </button>
+          <button v-show="!isFavorite" @click="setFavorite" class="btn btn-primary">Favorite</button>
+          <span v-show="isFavorite" class="glyphicon glyphicon-star pull-right" aria-hidden="true"></span>
       </li>
     </template>
   </body>
+  <!--
+      문제 발생!) 좋아요 버튼을 눌렀지만, favorite의 값은 null!!!
+      -> 이 접근법의 문제는 동기화를 하지 않고 있음
+      ** 기본적으로 모든 프로퍼티는 자식 프로퍼티와 부모 프로퍼티 사이에서
+         단방향 바인딩을 형성한다.
+      ** 부모프로퍼티가 갱신되면 자식에게 전달되지만 반대방향으로 전달 x
+  -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
   <script type="text/javascript">
     Vue.component('story', {
-      props: ['story'],
+      props: ['story', 'favorite'],
       template: "#story-template",
       methods: {
         upvote: function() {
           this.story.upvotes += 1;
           this.story.voted = true;
+        },
+        setFavorite: function() {
+          this.favorite = this.story;
+        }
+      },
+      computed: {
+        isFavorite: function() {
+          return this.story == this.favorite;
         }
       }
     });
@@ -66,7 +83,8 @@
             upvotes: 74,
             voted : false
           }
-        ]
+        ],
+        favorite: {}
       }
     })
   </script>
